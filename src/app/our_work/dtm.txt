@@ -1,0 +1,691 @@
+OLD CODE 
+
+
+"use client";
+import { useState, useRef, useEffect } from "react";
+import Navbar from "../navbar/navbar";
+import Footer from "../footer/footer";
+// import "./globals.css";
+import ContactUsModal from "../contact-us-modal/contact-us-modal";
+
+const Section = ({ title, description, imageUrl, bgColor }) => (
+  <div className="mt-8 p-[40px] md:w-[900px] w-[400px]  bg-white   flex gap-[32px] flex-col md:flex-row border-b-2 border-solid border-gray-700 rounded-xl shadow-xs ">
+    <img src={imageUrl} className="" alt="dtm-1" />
+    <div className="gap-[32px]">
+      <h1 className="font-Poppins font-semibold text-[27px] text-[#083E6F] leading-[32.4px]">
+        {title}
+      </h1>
+      <p className="text-[#4B4B4B] font-Poppins font-medium text-base leading-[28px] pt-4">
+        {description}
+      </p>
+    </div>
+  </div>
+);
+
+{
+  /* our works images */
+}
+function OurWorkPage() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+  const scrollimages = [
+    {
+      bigImage: "/images/our-workpage-big-1.png",
+      smallImage: "/images/our-workpage-small-1.png",
+    },
+    {
+      bigImage: "/images/our-workpage-big-2.png",
+      smallImage: "/images/our-workpage-small-2.png",
+    },
+    {
+      bigImage: "/images/our-workpage-big-3.png",
+      smallImage: "/images/our-workpage-small-3.png",
+    },
+    {
+      bigImage: "/images/our-workpage-big-4.png",
+      smallImage: "/images/our-workpage-small-4.png",
+    },
+  ];
+
+  {
+    /* scrolling images and content */
+  }
+  const sections = [
+    {
+      title: "Space Intelligence",
+      description:
+        "plays a crucial role in national security, scientific exploration, and commercial activities in space. It involves various methods of data gathering, such as satellite imagery, signals intelligence (SIGINT), and human intelligence (HUMINT), to monitor and understand developments in space. ",
+      imageUrl: "images/dtm-1.png",
+    },
+    {
+      title: "Ground Truth Observations",
+      description:
+        "Ground truth observations refer to data collected through direct, physical measurements or observations in the real world, typically used as a reference or benchmark for evaluating the accuracy or performance of models, algorithms, or remote sensing technologies.",
+      imageUrl: "images/dtm-2.png",
+    },
+    {
+      title: "UAV- Drones / Balloons",
+      description:
+        "Unmanned Aerial Vehicles (UAVs), commonly known as drones, and unmanned balloons are types of unmanned aerial systems (UAS) used for various purposes, including reconnaissance, surveillance, data collection, and scientific research. UAVs are aircraft that operate without a human pilot on board. ",
+      imageUrl: "images/dtm-3.png",
+    },
+    {
+      title: "Data Centre & DevOps",
+      description:
+        "A data center is a facility that houses computer systems and associated components, such as storage systems, networking equipment, and servers, as well as the infrastructure necessary for their operation, including power supplies, cooling systems, and security measures. ",
+      imageUrl: "images/dtm-4.png",
+    },
+    {
+      title: "Digital Twin & Dashboard",
+      description:
+        "A digital twin is a virtual representation or digital replica of a physical object, system, or process. It encompasses both the physical aspects (such as structure, components, and behavior) and the digital components (such as data, algorithms, and simulations) of the real-world entity it represents. ",
+      imageUrl: "images/dtm-5.png",
+    },
+  ];
+
+  function openModal() {
+    setModalOpen(true);
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal() {
+    setModalOpen(false);
+    document.body.style.overflow = "auto";
+  }
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === scrollimages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 2000);
+
+    // Cleanup function to clear the interval when component unmounts
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array to run this effect only once on mount
+
+  const scrollViewRef = useRef(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  //     {
+  //       title: "Space Intelligence",
+  //       description:
+  //         "plays a crucial role in national security, scientific exploration, and commercial activities in space...",
+  //       imageUrl: "images/dtm-1.png",
+  //       bgColor: "bg-red-200",
+  //     },
+  //     {
+  //       title: "Ground Truth Observations",
+  //       description:
+  //         "Ground truth observations refer to data collected through direct, physical measurements or observations...",
+  //       imageUrl: "images/dtm-1.png",
+  //       bgColor: "bg-red-600",
+  //     },
+  //     {
+  //       title: "UAV- Drones / Balloons",
+  //       description:
+  //         "Unmanned Aerial Vehicles (UAVs), commonly known as drones, and unmanned balloons are types of unmanned aerial systems...",
+  //       imageUrl: "images/dtm-1.png",
+  //       bgColor: "",
+  //     },
+  //     {
+  //       title: "Data Centre & DevOps",
+  //       description:
+  //         "A data center is a facility that houses computer systems and associated components...",
+  //       imageUrl: "images/dtm-1.png",
+  //       bgColor: "",
+  //     },
+  //     {
+  //       title: "Digital Twin & Dashboard",
+  //       description:
+  //         "A digital twin is a virtual representation or digital replica of a physical object, system, or process...",
+  //       imageUrl: "images/dtm-1.png",
+  //       bgColor: "",
+  //     },
+  //   ];
+  const scrollToIndex = (index) => {
+    const xOffset = index * 900; // Assuming 900px is the width of each section
+    scrollViewRef.current.scrollTo({ left: xOffset });
+  };
+  const handleLeftArrowClick = () => {
+    setSelectedIndex((prevIndex) => Math.max(0, prevIndex - 1));
+  };
+  const handleRightArrowClick = () => {
+    setSelectedIndex((prevIndex) =>
+      Math.min(sections.length - 1, prevIndex + 1)
+    );
+  };
+  useEffect(() => {
+    scrollToIndex(selectedIndex);
+  }, [selectedIndex]);
+
+  // console.log('SELECTED INDEX :', selectedIndex);
+  return (
+    <div>
+      <Navbar bgcolor={"#252525"} currentPage={"our_work"} />
+      <div className=" mt-12 lg:px-[104px] py-8 p-[34px]  ">
+        <div className="w-fit grid md:grid-cols-12 h-fit  gap-5 lg:gap-0 py-[60px] ">
+          {/* images */}
+          <div className="col-span-12 md:col-span-6 flex  items-center">
+            <div className=" relative p-[30px]">
+              <svg
+                className="absolute top-0 left-0"
+                xmlns="http://www.w3.org/2000/svg"
+                width="195"
+                height="196"
+                viewBox="0 0 195 196"
+                fill="none"
+              >
+                <line
+                  y1="2.97729"
+                  x2="194.883"
+                  y2="2.97729"
+                  stroke="url(#paint0_linear_1079_1783)"
+                  stroke-width="4"
+                />
+                <line
+                  x1="2"
+                  y1="1"
+                  x2="2"
+                  y2="195.883"
+                  stroke="url(#paint1_linear_1079_1783)"
+                  stroke-width="4"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_1079_1783"
+                    x1="0"
+                    y1="5.47729"
+                    x2="194.883"
+                    y2="5.47729"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#DF4133" />
+                    <stop offset="0.824" />
+                  </linearGradient>
+                  <linearGradient
+                    id="paint1_linear_1079_1783"
+                    x1="-0.5"
+                    y1="1"
+                    x2="-0.5"
+                    y2="195.883"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#DF4133" />
+                    <stop offset="0.824" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <img
+                src={scrollimages[currentIndex].bigImage}
+                alt="big image"
+                className=""
+              />
+              <img
+                src={scrollimages[currentIndex].smallImage}
+                className="absolute  -bottom-[30px] w-[50%]  right-[110px] lg:-right-[40px]  "
+                alt="small image"
+              />
+            </div>
+          </div>
+
+          {/* <div className="lg:col-span-2"></div> */}
+          {/* Our Work content */}
+          <div className="col-span-12  md:col-span-5  flex flex-col text-black relative">
+            {/* Heading */}
+            <div className="flex justify-start items-center">
+              <h2 className="font-[700]  text-[27px] text-nowrap  mr-3 leading-[150%] mt-9">
+                Our Works
+              </h2>
+              <div className="h-[4px] w-[200px] bg-gradient-to-r from-[#DF4133] to-[#fff] bg-[linear-gradient(90deg, #DF4133 0%, #FFF 82.4%)] mt-9"></div>
+            </div>
+
+            {/* Content */}
+            <div className="text-black font-[400] flex flex-col h-3/4 gap-6 mt-[28px] ">
+              {/* Changed `class` to `className` */}
+              <p>
+                Process and analyze satellite imagery and other remote sensing
+                data to monitor environmental changes, land use, and natural
+                disasters. Develop algorithms and tools for image processing,
+                feature extraction, and classification.
+              </p>
+              <p>
+                Manage geospatial data and create interactive maps and spatial
+                analyses to visualize and communicate information effectively.
+              </p>
+              <p>
+                Geospatial data can be collected from various sources, including
+                satellites, aerial surveys, GPS devices, and ground-based
+                sensors. This data may include information about terrain, land
+                use, population density, environmental factors, and
+                infrastructure.
+              </p>
+            </div>
+            {/* Connect with us button */}
+            <div className=" md:pb-8 mt-4 ">
+              <div
+                className="flex  bg-[#083E6F] gap-2 w-fit p-[16px] text-white rounded-[8px] text-[21px] font-semibold leading-[120%] "
+                onMouseEnter={openModal}
+                onMouseLeave={closeModal}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M12 22L11.75 19H11.5C9.13333 19 7.125 18.175 5.475 16.525C3.825 14.875 3 12.8667 3 10.5C3 8.13333 3.825 6.125 5.475 4.475C7.125 2.825 9.13333 2 11.5 2C12.6833 2 13.7877 2.22067 14.813 2.662C15.8383 3.10333 16.7383 3.71167 17.513 4.487C18.2877 5.26233 18.8957 6.16233 19.337 7.187C19.7783 8.21167 19.9993 9.316 20 10.5C20 11.75 19.796 12.95 19.388 14.1C18.98 15.25 18.4213 16.3167 17.712 17.3C17.0027 18.2833 16.161 19.175 15.187 19.975C14.213 20.775 13.1507 21.45 12 22ZM11.475 15.975C11.7583 15.975 12 15.875 12.2 15.675C12.4 15.475 12.5 15.2333 12.5 14.95C12.5 14.6667 12.4 14.425 12.2 14.225C12 14.025 11.7583 13.925 11.475 13.925C11.1917 13.925 10.95 14.025 10.75 14.225C10.55 14.425 10.45 14.6667 10.45 14.95C10.45 15.2333 10.55 15.475 10.75 15.675C10.95 15.875 11.1917 15.975 11.475 15.975ZM10.75 12.8H12.25C12.25 12.3 12.3 11.95 12.4 11.75C12.5 11.55 12.8167 11.1833 13.35 10.65C13.65 10.35 13.9 10.025 14.1 9.675C14.3 9.325 14.4 8.95 14.4 8.55C14.4 7.7 14.1127 7.06233 13.538 6.637C12.9633 6.21167 12.284 5.99933 11.5 6C10.7667 6 10.15 6.20433 9.65 6.613C9.15 7.02167 8.8 7.51733 8.6 8.1L10 8.65C10.0833 8.36667 10.2417 8.08767 10.475 7.813C10.7083 7.53833 11.05 7.40067 11.5 7.4C11.95 7.39933 12.2877 7.52433 12.513 7.775C12.7383 8.02567 12.8507 8.30067 12.85 8.6C12.85 8.88333 12.7667 9.13767 12.6 9.363C12.4333 9.58833 12.2333 9.81733 12 10.05C11.4167 10.55 11.0627 10.946 10.938 11.238C10.8133 11.53 10.7507 12.0507 10.75 12.8Z"
+                    fill="white"
+                  />
+                </svg>
+                <button>Connect With Us</button>
+                {modalOpen && <ContactUsModal closeModal={closeModal} />}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Hr line */}
+        <hr className="h-0.5 mt-8 bg-[#cecece] mb-[70px]" />
+
+        {/* dtm content */}
+        <div className="flex justify-between lg:flex-row flex-col gap-6 lg:gap-0 lg:items-center ">
+          <div className="flex justify-start items-center ">
+            <h2 className="font-Poppins font-bold text-[27px] mr-2 text-[#252525] text-justify leading-[32.4px] items-center">
+              Digital Twin Model
+            </h2>
+
+            <div className="h-[4px] w-[100px] lg:w-[200px] bg-gradient-to-r from-[#DF4133] to-[#fff] bg-[linear-gradient(90deg, #DF4133 0%, #FFF 82.4%)] "></div>
+          </div>
+
+          {/* Arrow Buttons */}
+
+          <div className=" items-center gap-[14px] flex">
+            <div onClick={handleLeftArrowClick}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="48"
+                height="48"
+                viewBox="0 0 48 48"
+                fill="none"
+              >
+                <rect
+                  x="47.5"
+                  y="47.5"
+                  width="47"
+                  height="47"
+                  rx="23.5"
+                  transform="rotate(-180 47.5 47.5)"
+                  stroke="#4B4B4B"
+                />
+                <path
+                  d="M29.38 34.58C29.5654 34.3949 29.7125 34.1752 29.8128 33.9332C29.9132 33.6913 29.9648 33.4319 29.9648 33.17C29.9648 32.908 29.9132 32.6487 29.8128 32.4067C29.7125 32.1648 29.5654 31.945 29.38 31.76L21.62 24L29.38 16.24C29.7539 15.866 29.964 15.3588 29.964 14.83C29.964 14.3011 29.7539 13.7939 29.38 13.42C29.006 13.046 28.4988 12.8359 27.97 12.8359C27.4411 12.8359 26.9339 13.046 26.56 13.42L17.38 22.6C17.1945 22.785 17.0475 23.0048 16.9471 23.2467C16.8467 23.4887 16.7951 23.748 16.7951 24.01C16.7951 24.2719 16.8467 24.5313 16.9471 24.7732C17.0475 25.0152 17.1945 25.2349 17.38 25.42L26.56 34.6C27.32 35.36 28.6 35.36 29.38 34.58Z"
+                  fill="#4B4B4B"
+                />
+              </svg>{" "}
+            </div>
+            <p class="text-black text-justify font-poppins font-medium text-base leading-[120%]">
+              Step {selectedIndex + 1}
+            </p>
+            <div onClick={handleRightArrowClick}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="48"
+                height="48"
+                viewBox="0 0 48 48"
+                fill="none"
+              >
+                <rect
+                  x="0.5"
+                  y="0.5"
+                  width="47"
+                  height="47"
+                  rx="23.5"
+                  stroke="#083E6F"
+                />
+                <path
+                  d="M18.62 13.42C18.4346 13.6051 18.2875 13.8248 18.1872 14.0668C18.0868 14.3087 18.0352 14.5681 18.0352 14.83C18.0352 15.092 18.0868 15.3513 18.1872 15.5933C18.2875 15.8352 18.4346 16.055 18.62 16.24L26.38 24L18.62 31.76C18.2461 32.134 18.036 32.6412 18.036 33.17C18.036 33.6989 18.2461 34.2061 18.62 34.58C18.994 34.954 19.5012 35.1641 20.03 35.1641C20.5589 35.1641 21.0661 34.954 21.44 34.58L30.62 25.4C30.8055 25.215 30.9525 24.9952 31.0529 24.7533C31.1533 24.5113 31.2049 24.252 31.2049 23.99C31.2049 23.7281 31.1533 23.4687 31.0529 23.2268C30.9525 22.9848 30.8055 22.7651 30.62 22.58L21.44 13.4C20.68 12.64 19.4 12.64 18.62 13.42Z"
+                  fill="#083E6F"
+                />
+              </svg>{" "}
+            </div>
+          </div>
+        </div>
+        <p className="text-[#4B4B4B] font-Poppins text-base font-normal leading-7 mt-6">
+          A Space Observation Digital Twin Model System would be a sophisticated
+          platform that integrates various technologies and data sources to
+          create a virtual replica or simulation of space observation
+          infrastructure and phenomena.
+        </p>
+
+        {/* Circle Images */}
+        <div className="flex-col lg:flex hidden">
+        <div className="flex mt-5  w-[900px]  items-center ">
+          {/* <div className="stroke-width: 1px stroke: var(--Primary-color, #DF4133);"> */}
+          {/* image 1 */}
+          <div
+            className={`border-2  rounded-[50%]  border-dashed p-[2px] ${
+              selectedIndex === 0 ? "border-[#Df4133]" : "border-transparent"
+            } `}
+          >
+            <div
+              className={` rounded-[50%] p-[2px] ${
+                selectedIndex === 0 ? "bg-[#Df4133]" : "bg-[#4B4B4B]"
+              } `}
+            >
+              <img
+                src="/images/digital_twin_small_img_1.png"
+                className=""
+                alt="small image"
+              />
+            </div>
+          </div>
+
+          <svg
+            className={`${selectedIndex === 0 ? "block" : "hidden"}`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="97"
+            height="6"
+            viewBox="0 0 99 6"
+            fill="none"
+          >
+            <path
+              d="M97 3.00001L92 0.113257L92 5.88676L97 3.00001ZM-4.37114e-08 3.5L2.02083 3.5L2.02083 2.5L4.37114e-08 2.5L-4.37114e-08 3.5ZM6.0625 3.5L10.1042 3.5L10.1042 2.5L6.0625 2.5L6.0625 3.5ZM14.1458 3.5L18.1875 3.5L18.1875 2.5L14.1458 2.5L14.1458 3.5ZM22.2292 3.5L26.2708 3.5L26.2708 2.5L22.2292 2.5L22.2292 3.5ZM30.3125 3.5L34.3542 3.5L34.3542 2.5L30.3125 2.5L30.3125 3.5ZM38.3958 3.5L42.4375 3.5L42.4375 2.5L38.3958 2.5L38.3958 3.5ZM46.4792 3.5L50.5208 3.5L50.5208 2.5L46.4792 2.5L46.4792 3.5ZM54.5625 3.5L58.6042 3.50001L58.6042 2.50001L54.5625 2.5L54.5625 3.5ZM62.6458 3.50001L66.6875 3.50001L66.6875 2.50001L62.6458 2.50001L62.6458 3.50001ZM70.7292 3.50001L74.7708 3.50001L74.7708 2.50001L70.7292 2.50001L70.7292 3.50001ZM78.8125 3.50001L82.8542 3.50001L82.8542 2.50001L78.8125 2.50001L78.8125 3.50001ZM86.8958 3.50001L90.9375 3.50001L90.9375 2.50001L86.8958 2.50001L86.8958 3.50001Z"
+              fill="url(#paint0_linear_671_2842)"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_671_2842"
+                x1="-4.37114e-08"
+                y1="3.5"
+                x2="97"
+                y2="3.50001"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0.54" stop-color="#DF4133" />
+                <stop offset="1" stop-color="#4B4B4B" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <svg
+            className={`${selectedIndex === 0 ? "hidden" : "block"}`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="93"
+            height="2"
+            viewBox="0 0 99 2"
+            fill="none"
+          >
+            <path d="M0 1L93 1.00001" stroke="#DF4133" stroke-dasharray="4 4" />
+          </svg>
+
+          {/* image  2*/}
+          <div
+            className={`border-2 rounded-[50%]  border-dashed p-[2px] ${
+              selectedIndex === 1 ? "border-[#Df4133]" : "border-transparent"
+            } `}
+          >
+            <div
+              className={` rounded-[50%] p-[2px] ${
+                selectedIndex === 1 ? "bg-[#Df4133]" : "bg-[#4B4B4B]"
+              } `}
+            >
+              <img
+                src="/images/digital_twin_small_img_2.png"
+                className=""
+                alt="small image"
+              />
+            </div>
+          </div>
+
+          {/* arrow dotted */}
+          <svg
+            className={`${selectedIndex === 1 ? "block" : "hidden"}`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="99"
+            height="6"
+            viewBox="0 0 99 6"
+            fill="none"
+          >
+            <path
+              d="M99 2.99999L94 0.11324L94 5.88674L99 2.99999ZM4.37114e-08 3.5L2.0625 3.5L2.0625 2.5L-4.37114e-08 2.5L4.37114e-08 3.5ZM6.1875 3.5L10.3125 3.5L10.3125 2.5L6.1875 2.5L6.1875 3.5ZM14.4375 3.5L18.5625 3.5L18.5625 2.5L14.4375 2.5L14.4375 3.5ZM22.6875 3.5L26.8125 3.5L26.8125 2.5L22.6875 2.5L22.6875 3.5ZM30.9375 3.5L35.0625 3.5L35.0625 2.5L30.9375 2.5L30.9375 3.5ZM39.1875 3.5L43.3125 3.5L43.3125 2.5L39.1875 2.5L39.1875 3.5ZM47.4375 3.5L51.5625 3.5L51.5625 2.5L47.4375 2.5L47.4375 3.5ZM55.6875 3.5L59.8125 3.49999L59.8125 2.49999L55.6875 2.5L55.6875 3.5ZM63.9375 3.49999L68.0625 3.49999L68.0625 2.49999L63.9375 2.49999L63.9375 3.49999ZM72.1875 3.49999L76.3125 3.49999L76.3125 2.49999L72.1875 2.49999L72.1875 3.49999ZM80.4375 3.49999L84.5625 3.49999L84.5625 2.49999L80.4375 2.49999L80.4375 3.49999ZM88.6875 3.49999L92.8125 3.49999L92.8125 2.49999L88.6875 2.49999L88.6875 3.49999Z"
+              fill="url(#paint0_linear_671_2665)"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_671_2665"
+                x1="4.37114e-08"
+                y1="3.5"
+                x2="99"
+                y2="3.49999"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0.607058" stop-color="#DF4133" />
+                <stop offset="1" stop-color="#4B4B4B" />
+              </linearGradient>
+            </defs>
+          </svg>
+          {/* red dotted */}
+          <svg
+            className={`${selectedIndex > 1 ? "block" : "hidden"}`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="93"
+            height="2"
+            viewBox="0 0 99 2"
+            fill="none"
+          >
+            <path d="M0 1L93 1.00001" stroke="#DF4133" stroke-dasharray="4 4" />
+          </svg>
+          {/* black dotted */}
+          <svg
+            className={`${selectedIndex < 1 ? "block" : "hidden"}`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="99"
+            height="2"
+            viewBox="0 0 99 2"
+            fill="none"
+          >
+            <path
+              d="M0 1L99 0.999991"
+              stroke="#4B4B4B"
+              stroke-dasharray="4 4"
+            />
+          </svg>
+
+          {/* image  3*/}
+          <div
+            className={`border-2 rounded-[50%]  border-dashed p-[2px] ${
+              selectedIndex === 2 ? "border-[#Df4133]" : "border-transparent"
+            } `}
+          >
+            <div
+              className={` rounded-[50%] p-[2px] ${
+                selectedIndex === 2 ? "bg-[#Df4133]" : "bg-[#4B4B4B]"
+              } `}
+            >
+              <img
+                src="/images/digital_twin_small_img_3.png"
+                className=""
+                alt="small image"
+              />
+            </div>
+          </div>
+
+          {/* arrow dotted */}
+          <svg
+            className={`${selectedIndex === 2 ? "block" : "hidden"}`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="95"
+            height="6"
+            viewBox="0 0 99 6"
+            fill="none"
+          >
+            <path
+              d="M95 3.00001L90 0.113256L90 5.88676L95 3.00001ZM-4.37114e-08 3.5L1.97917 3.5L1.97917 2.5L4.37114e-08 2.5L-4.37114e-08 3.5ZM5.9375 3.5L9.89583 3.5L9.89583 2.5L5.9375 2.5L5.9375 3.5ZM13.8542 3.5L17.8125 3.5L17.8125 2.5L13.8542 2.5L13.8542 3.5ZM21.7708 3.5L25.7292 3.5L25.7292 2.5L21.7708 2.5L21.7708 3.5ZM29.6875 3.5L33.6458 3.5L33.6458 2.5L29.6875 2.5L29.6875 3.5ZM37.6042 3.5L41.5625 3.5L41.5625 2.5L37.6042 2.5L37.6042 3.5ZM45.5208 3.5L47.5 3.5L47.5 2.5L45.5208 2.5L45.5208 3.5ZM47.5 3.5L49.4792 3.5L49.4792 2.5L47.5 2.5L47.5 3.5ZM53.4375 3.5L57.3958 3.50001L57.3958 2.50001L53.4375 2.5L53.4375 3.5ZM61.3542 3.50001L65.3125 3.50001L65.3125 2.50001L61.3542 2.50001L61.3542 3.50001ZM69.2708 3.50001L73.2292 3.50001L73.2292 2.50001L69.2708 2.50001L69.2708 3.50001ZM77.1875 3.50001L81.1458 3.50001L81.1458 2.50001L77.1875 2.50001L77.1875 3.50001ZM85.1042 3.50001L89.0625 3.50001L89.0625 2.50001L85.1042 2.50001L85.1042 3.50001Z"
+              fill="url(#paint0_linear_671_2795)"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_671_2795"
+                x1="-4.37114e-08"
+                y1="3.5"
+                x2="95"
+                y2="3.50001"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0.552325" stop-color="#DF4133" />
+                <stop offset="0.838453" stop-color="#4B4B4B" />
+              </linearGradient>
+            </defs>
+          </svg>
+          {/* red dotted */}
+          <svg
+            className={`${selectedIndex > 2 ? "block" : "hidden"}`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="93"
+            height="2"
+            viewBox="0 0 99 2"
+            fill="none"
+          >
+            <path d="M0 1L93 1.00001" stroke="#DF4133" stroke-dasharray="4 4" />
+          </svg>
+          {/* black dotted */}
+          <svg
+            className={`${selectedIndex < 2 ? "block" : "hidden"}`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="99"
+            height="2"
+            viewBox="0 0 99 2"
+            fill="none"
+          >
+            <path
+              d="M0 1L99 0.999991"
+              stroke="#4B4B4B"
+              stroke-dasharray="4 4"
+            />
+          </svg>
+
+          {/* Image 4*/}
+          <div
+            className={`border-2 rounded-[50%]  border-dashed p-[2px] ${
+              selectedIndex === 3 ? "border-[#Df4133]" : "border-transparent"
+            } `}
+          >
+            <div
+              className={` rounded-[50%] p-[2px] ${
+                selectedIndex === 3 ? "bg-[#Df4133]" : "bg-[#4B4B4B]"
+              } `}
+            >
+              <img
+                src="/images/digital_twin_small_img_4.png"
+                className=""
+                alt="small image"
+              />
+            </div>
+          </div>
+
+          {/* arrow dotted */}
+
+          <svg
+            className={`${selectedIndex === 3 ? "block" : "hidden"}`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="97"
+            height="6"
+            viewBox="0 0 99 6"
+            fill="none"
+          >
+            <path
+              d="M97 3.00001L92 0.113257L92 5.88676L97 3.00001ZM-4.37114e-08 3.5L2.02083 3.5L2.02083 2.5L4.37114e-08 2.5L-4.37114e-08 3.5ZM6.0625 3.5L10.1042 3.5L10.1042 2.5L6.0625 2.5L6.0625 3.5ZM14.1458 3.5L18.1875 3.5L18.1875 2.5L14.1458 2.5L14.1458 3.5ZM22.2292 3.5L26.2708 3.5L26.2708 2.5L22.2292 2.5L22.2292 3.5ZM30.3125 3.5L34.3542 3.5L34.3542 2.5L30.3125 2.5L30.3125 3.5ZM38.3958 3.5L42.4375 3.5L42.4375 2.5L38.3958 2.5L38.3958 3.5ZM46.4792 3.5L50.5208 3.5L50.5208 2.5L46.4792 2.5L46.4792 3.5ZM54.5625 3.5L58.6042 3.50001L58.6042 2.50001L54.5625 2.5L54.5625 3.5ZM62.6458 3.50001L66.6875 3.50001L66.6875 2.50001L62.6458 2.50001L62.6458 3.50001ZM70.7292 3.50001L74.7708 3.50001L74.7708 2.50001L70.7292 2.50001L70.7292 3.50001ZM78.8125 3.50001L82.8542 3.50001L82.8542 2.50001L78.8125 2.50001L78.8125 3.50001ZM86.8958 3.50001L90.9375 3.50001L90.9375 2.50001L86.8958 2.50001L86.8958 3.50001Z"
+              fill="url(#gradient)"
+            />
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#DF4133" />
+                <stop offset="54%" stop-color="#DF4133" />
+                <stop offset="100%" stop-color="#4B4B4B" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          {/* red dotted */}
+          <svg
+            className={`${selectedIndex > 3 ? "block" : "hidden"}`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="93"
+            height="2"
+            viewBox="0 0 99 2"
+            fill="none"
+          >
+            <path d="M0 1L93 1.00001" stroke="#DF4133" stroke-dasharray="4 4" />
+          </svg>
+          {/* black dotted */}
+          <svg
+            className={`${selectedIndex < 3 ? "block" : "hidden"}`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="99"
+            height="2"
+            viewBox="0 0 99 2"
+            fill="none"
+          >
+            <path
+              d="M0 1L99 0.999991"
+              stroke="#4B4B4B"
+              stroke-dasharray="4 4"
+            />
+          </svg>
+
+          {/* Image 5*/}
+          <div
+            className={`border-2 rounded-[50%]  border-dashed p-[2px] ${
+              selectedIndex === 4 ? "border-[#Df4133]" : "border-transparent"
+            } `}
+          >
+            <div
+              className={` rounded-[50%] p-[2px] ${
+                selectedIndex === 4 ? "bg-[#Df4133]" : "bg-[#4B4B4B]"
+              } `}
+            >
+              <img
+                src="/images/digital_twin_small_img_5.png"
+                className=""
+                alt="small image"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex mt-5  w-[880px]  items-center justify-between font-medium leading-[120%] text-[14px] ">
+          <h1 className={`w-[100px] text-nowrap  ${
+              selectedIndex === 0 ? "text-[#Df4133]" : "text-[#4B4B4B]"
+            }`}>Space Intelligence</h1>
+          <h1 className={`w-[100px]   ${
+              selectedIndex === 1 ? "text-[#Df4133]" : "text-[#4B4B4B]"
+            }`}>Ground Truth Observations</h1>
+          <h1 className={`w-[100px]   ${
+              selectedIndex === 2 ? "text-[#Df4133]" : "text-[#4B4B4B]"
+            }`}>UAV- Drones / Balloons</h1>
+          <h1 className={`w-[100px]   ${
+              selectedIndex === 3 ? "text-[#Df4133]" : "text-[#4B4B4B]"
+            }`}>Data Centre & DevOps</h1>
+          <h1 className={`w-[100px]  ${
+              selectedIndex === 4 ? "text-[#Df4133]" : "text-[#4B4B4B]"
+            }`}>Digital Twin & Dashboard</h1>
+        </div>
+        </div>
+      </div>
+
+      {/* Scrolling */}
+      <div
+        className="overflow-x-auto hide-scrollbar md:pr-[104px] md:ml-[104px] ml-8"
+        style={{ maxWidth: "100%" }}
+        ref={scrollViewRef}
+      >
+        <div className="flex gap-12 md:min-w-[4500px] min-w-[2300px] ">
+          {sections.map((section, index) => (
+            <Section key={index} {...section} />
+          ))}
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+export default OurWorkPage;
