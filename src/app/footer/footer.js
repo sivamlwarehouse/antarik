@@ -48,8 +48,7 @@ function Footer() {
                 />
               </svg>
               <p className="ml-2 text-sm font-xs pb-4  hover:text-red-500">
-                First Floor, Incubator Building Masdar City,Abu Dhabi, United
-                Arab Emirates
+              
               </p>
             </div>
             <div>
@@ -67,7 +66,7 @@ function Footer() {
                   />
                 </svg>
                 <p className="ml-2 text-sm font-xs pb-4  hover:text-red-500">
-                  Email: info@antarik.space 
+                
                 </p>
               </div>
             </div>
